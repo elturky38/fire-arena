@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://elturky38.github.io/fire-arena/sitemap.xml

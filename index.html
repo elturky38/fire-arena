@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="فاير أرينا — كونسبت لعبة باتل رويال عربية مصمّمة تشتغل على الأجهزة الضعيفة. خريطة فيها الأهرام وبركان القدر، شخصيات، وعملة جُعران الشمس.">
+<link rel="canonical" href="https://elturky38.github.io/fire-arena/">
+<meta name="theme-color" content="#08080A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="فاير أرينا">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:title" content="فاير أرينا — الناجي الأخير يفوز">
+<meta property="og:description" content="كونسبت باتل رويال عربي: خريطة فيها الأهرام وبركان القدر، شخصيات، وعملة جُعران الشمس. مصمّمة للأجهزة الضعيفة.">
+<meta property="og:url" content="https://elturky38.github.io/fire-arena/">
+<meta property="og:image" content="https://elturky38.github.io/fire-arena/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="فاير أرينا — الناجي الأخير يفوز">
+<meta name="twitter:description" content="كونسبت باتل رويال عربي مصمّم للأجهزة الضعيفة.">
+<meta name="twitter:image" content="https://elturky38.github.io/fire-arena/og.jpg">
+<link rel="icon" href="img/icon.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="img/icon.jpg">
+<title>فاير أرينا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap">
+
+<style>
+:root{
+  --void:#08080A;
+  --ground:#0C0C10;
+  --panel:#131319;
+  --panel-2:#1B1B23;
+  --line:#26262F;
+  --line-2:#3A3A47;
+  --ink:#F5F1EA;
+  --ink-2:#A49C91;
+  --ink-3:#6B6459;
+  --fire:#FF5A1F;
+  --fire-hi:#FF9040;
+  --fire-deep:#B93204;
+  --ember:rgba(255,90,31,.12);
+  --gold:#F0B93F;
+  --gold-deep:#8F6710;
+  --gold-wash:rgba(240,185,63,.10);
+  --cool:#78B4D6;
+  --cool-wash:rgba(120,180,214,.09);
+  --go:#3FBF6A;
+  --stop:#F0533A;
+  --hud:"Rajdhani",ui-monospace,monospace;
+  --body:"IBM Plex Sans Arabic","Cairo",system-ui,sans-serif;
+  --disp:"Cairo","IBM Plex Sans Arabic",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:66px}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+body{
+  margin:0;direction:rtl;background:var(--void);color:var(--ink);
+  font-family:var(--body);font-size:16px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+::selection{background:var(--fire);color:#140600}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.narrow{max-width:960px;margin:0 auto;padding:0 22px}
+
+h1,h2,h3,h4{font-family:var(--disp);font-weight:900;line-height:1.18;text-wrap:balance;margin:0}
+p{margin:0}
+b.f{color:var(--fire-hi)}
+b.g{color:var(--gold)}
+
+/* ══ HUD chrome ══ */
+.hud{
+  font-family:var(--hud);font-weight:600;font-size:13px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--fire);
+  display:inline-flex;align-items:center;gap:9px;
+}
+.hud::before{
+  content:"";width:7px;height:7px;flex:none;
+  background:currentColor;transform:rotate(45deg);
+}
+.hud.g{color:var(--gold)}
+.hud.c{color:var(--cool)}
+.hud.d{color:var(--ink-3)}
+
+.sec-h{font-size:clamp(30px,5.2vw,52px);letter-spacing:-.015em;margin-top:14px}
+.sec-p{color:var(--ink-2);font-size:17px;line-height:1.85;max-width:60ch;margin-top:18px}
+
+/* angular game-panel corners */
+.clip{clip-path:polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px))}
+.clip-s{clip-path:polygon(0 0, calc(100% - 11px) 0, 100% 11px, 100% 100%, 11px 100%, 0 calc(100% - 11px))}
+
+/* ══ nav ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:80;height:60px;
+  background:rgba(8,8,10,0);border-bottom:1px solid transparent;
+  transition:background .3s, border-color .3s, backdrop-filter .3s;
+}
+nav.stuck{background:rgba(8,8,10,.90);backdrop-filter:blur(16px);border-bottom-color:var(--line)}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 22px;height:60px;display:flex;align-items:center;gap:18px}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);flex:none}
+.nav-brand img{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,144,64,.4)}
+.nav-brand span{font-family:var(--disp);font-weight:900;font-size:17px}
+.nav-links{display:flex;gap:2px;margin-right:auto;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{
+  color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:500;
+  padding:7px 13px;border-radius:8px;white-space:nowrap;transition:.16s;
+}
+.nav-links a:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+.nav-links a.on{color:var(--fire-hi);background:var(--ember)}
+
+/* ══ HERO ══ */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:flex-end;
+  padding:100px 0 54px;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:65% 45%}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(to top, var(--void) 3%, rgba(8,8,10,.72) 34%, rgba(8,8,10,.30) 62%, rgba(8,8,10,.62) 100%),
+    linear-gradient(to left, rgba(8,8,10,.80), transparent 58%);
+}
+.hero-in{position:relative;z-index:2;width:100%}
+
+.lockup{display:flex;align-items:center;gap:17px;margin-bottom:26px}
+.lockup .mk{
+  width:74px;height:74px;flex:none;border-radius:17px;overflow:hidden;
+  border:1px solid rgba(255,144,64,.45);
+  box-shadow:0 12px 44px rgba(255,90,31,.42);
+}
+.lockup .mk img{width:100%;height:100%;object-fit:cover}
+.lockup h1{
+  font-size:clamp(44px,9vw,84px);line-height:.98;letter-spacing:-.02em;
+  background:linear-gradient(178deg,#FFE3B4 4%,#FFA23F 40%,#FF5A1F 72%,#B93204);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 16px rgba(255,90,31,.35));
+}
+.lockup .lat{
+  font-family:var(--hud);font-weight:700;font-size:clamp(12px,1.7vw,15px);
+  letter-spacing:.44em;color:var(--ink-2);margin-top:4px;
+}
+
+.tagline{
+  font-family:var(--disp);font-weight:900;
+  font-size:clamp(24px,4.4vw,44px);line-height:1.35;max-width:17ch;
+  text-shadow:0 3px 22px rgba(0,0,0,.85);
+}
+.tagline b{color:var(--fire-hi)}
+.hero-sub{
+  color:#D6CEC2;max-width:50ch;margin-top:18px;font-size:16.5px;line-height:1.8;
+  text-shadow:0 2px 14px rgba(0,0,0,.9);
+}
+
+.hero-chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.chip{
+  font-family:var(--hud);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+  background:rgba(8,8,10,.72);border:1px solid var(--line-2);backdrop-filter:blur(8px);
+  color:var(--ink-2);padding:8px 14px;
+}
+.chip.f{border-color:rgba(255,90,31,.55);color:var(--fire-hi);background:rgba(255,90,31,.10)}
+.chip.g{border-color:rgba(240,185,63,.50);color:var(--gold);background:rgba(240,185,63,.09)}
+
+.scroller{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;
+  font-family:var(--hud);font-size:11px;letter-spacing:.28em;color:var(--ink-3);
+  text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:7px;
+}
+.scroller i{display:block;width:1px;height:34px;background:linear-gradient(var(--fire),transparent);animation:drop 2s infinite}
+@keyframes drop{0%{opacity:0;transform:scaleY(.3)}45%{opacity:1}100%{opacity:0;transform:scaleY(1)}}
+
+/* ══ honesty banner ══ */
+.honest{
+  background:linear-gradient(90deg,var(--gold-wash),transparent 70%);
+  border-top:1px solid rgba(240,185,63,.28);border-bottom:1px solid rgba(240,185,63,.28);
+}
+.honest-in{max-width:1240px;margin:0 auto;padding:17px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.honest .tag{
+  font-family:var(--hud);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--gold);color:#160F02;padding:5px 11px;flex:none;
+}
+.honest p{font-size:14.5px;color:#DFCCA4;line-height:1.7}
+.honest b{color:var(--gold)}
+
+/* ══ generic section ══ */
+section{padding:96px 0;position:relative}
+.band{border-top:1px solid var(--line)}
+
+/* ══ pillars ══ */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px;margin-top:44px}
+.pill{
+  background:var(--panel);border:1px solid var(--line);padding:30px 26px 28px;position:relative;overflow:hidden;
+}
+.pill::before{content:"";position:absolute;top:0;right:0;left:0;height:2px;background:var(--line-2)}
+.pill.f::before{background:linear-gradient(90deg,var(--fire),transparent)}
+.pill.g::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.pill.c::before{background:linear-gradient(90deg,var(--cool),transparent)}
+.pill .no{
+  font-family:var(--hud);font-weight:700;font-size:40px;line-height:1;color:var(--line-2);
+  position:absolute;top:20px;left:22px;
+}
+.pill h3{font-size:22px;margin:12px 0 12px;max-width:16ch}
+.pill p{color:var(--ink-2);font-size:15px;line-height:1.85}
+.pill p + p{margin-top:12px}
+.target{
+  margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2);
+  display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;
+}
+.target .k{font-family:var(--hud);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.target .v{font-family:var(--disp);font-weight:900;font-size:19px;color:var(--fire-hi)}
+.pill.g .target .v{color:var(--gold)}
+.pill.c .target .v{color:var(--cool)}
+
+/* proposal flag */
+.prop{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--hud);font-weight:600;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--cool);border:1px dashed rgba(120,180,214,.5);background:var(--cool-wash);
+  padding:4px 10px;margin-bottom:4px;
+}
+/* ══ cinematic full-bleed band ══ */
+.cine{position:relative;min-height:78svh;display:flex;align-items:center;overflow:hidden;padding:90px 0}
+.cine-bg{position:absolute;inset:0;z-index:0}
+.cine-bg img{width:100%;height:100%;object-fit:cover}
+.cine-bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to left,rgba(8,8,10,.94) 12%,rgba(8,8,10,.74) 46%,rgba(8,8,10,.22) 100%),
+             linear-gradient(to top,var(--void),transparent 30%);
+}
+.cine-in{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 22px;width:100%}
+.cine-txt{max-width:44ch}
+.cine-txt h2{font-size:clamp(28px,4.6vw,46px);margin-top:14px;text-shadow:0 3px 20px rgba(0,0,0,.8)}
+.cine-txt p{color:#D3CABE;font-size:16.5px;line-height:1.85;margin-top:18px;text-shadow:0 2px 12px rgba(0,0,0,.85)}
+
+/* ══ MAP ══ */
+.mapwrap{margin-top:40px;position:relative;border:1px solid var(--line-2);background:var(--ground)}
+.mapimg{position:relative;line-height:0}
+.mapimg img{width:100%}
+.pin{
+  position:absolute;transform:translate(-50%,-50%);
+  width:30px;height:30px;border-radius:50%;padding:0;cursor:pointer;
+  background:rgba(8,8,10,.55);border:2px solid var(--fire);
+  color:var(--fire-hi);font-family:var(--hud);font-weight:700;font-size:14px;
+  display:grid;place-items:center;transition:.2s;z-index:3;
+  box-shadow:0 0 0 0 rgba(255,90,31,.5);
+}
+.pin::after{
+  content:"";position:absolute;inset:-2px;border-radius:50%;
+  border:2px solid var(--fire);animation:ping 2.6s ease-out infinite;
+}
+@keyframes ping{0%{transform:scale(1);opacity:.85}75%,100%{transform:scale(2.1);opacity:0}}
+.pin:hover,.pin.on{background:var(--fire);color:#150500;transform:translate(-50%,-50%) scale(1.22);box-shadow:0 0 26px rgba(255,90,31,.85)}
+.pin.on::after{animation:none;opacity:0}
+
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px;margin-top:12px}
+.zone{
+  background:var(--panel);border:1px solid var(--line);padding:19px 20px;cursor:pointer;
+  transition:.2s;position:relative;text-align:start;font:inherit;color:inherit;width:100%;
+}
+.zone:hover{border-color:var(--line-2);background:var(--panel-2)}
+.zone.on{border-color:var(--fire);background:linear-gradient(150deg,var(--ember),var(--panel) 60%)}
+.zone .top{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.zone .num{
+  width:24px;height:24px;flex:none;display:grid;place-items:center;
+  font-family:var(--hud);font-weight:700;font-size:13px;
+  background:var(--line);color:var(--ink-2);transition:.2s;
+}
+.zone.on .num{background:var(--fire);color:#150500}
+.zone h4{font-size:16.5px}
+.zone .kind{
+  font-family:var(--hud);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-3);margin-right:auto;flex:none;
+}
+.zone p{color:var(--ink-2);font-size:14.5px;line-height:1.75}
+
+/* ══ CHARACTERS ══ */
+.roster{display:flex;gap:9px;margin-top:38px;flex-wrap:wrap}
+.rtab{
+  font-family:var(--hud);font-weight:700;font-size:15px;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--panel);border:1px solid var(--line);color:var(--ink-2);
+  padding:11px 26px;cursor:pointer;transition:.18s;
+}
+.rtab:hover{color:var(--ink);border-color:var(--line-2)}
+.rtab.on{background:var(--cool-wash);border-color:var(--cool);color:var(--cool)}
+.char{display:none;margin-top:18px;border:1px solid var(--line);background:var(--panel);overflow:hidden}
+.char.on{display:block}
+.char .sheet{line-height:0;border-bottom:1px solid var(--line)}
+.char .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line)}
+.char .cell{background:var(--panel);padding:17px 19px}
+.char .cell .k{font-family:var(--hud);font-size:11px;letter-spacing:.17em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:5px}
+.char .cell .v{font-family:var(--disp);font-weight:700;font-size:17px;color:var(--ink)}
+.char .cell .v.hi{color:var(--cool)}
+.char .note{padding:20px 22px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px;line-height:1.85}
+
+/* ══ COIN ══ */
+.coinrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;align-items:center;margin-top:44px}
+.coin{position:relative;justify-self:center;max-width:430px}
+.coin::before{
+  content:"";position:absolute;inset:-16%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(240,185,63,.30),transparent 72%);
+  animation:pulse 5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
+.coin img{position:relative;border:1px solid rgba(240,185,63,.28)}
+.econ-rules{display:grid;gap:12px;margin-top:26px}
+.erule{background:var(--panel);border:1px solid var(--line);border-right:3px solid var(--gold);padding:18px 20px}
+.erule.no{border-right-color:var(--stop)}
+.erule h4{font-size:17px;margin-bottom:7px}
+.erule p{color:var(--ink-2);font-size:14.5px;line-height:1.78}
+
+/* ══ STATUS ══ */
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:38px}
+.stat{background:var(--panel);border:1px solid var(--line);padding:24px 24px 20px}
+.stat.done{border-color:rgba(63,191,106,.32)}
+.stat.todo{border-color:rgba(240,83,58,.30)}
+.stat h3{font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.stat .bul{width:22px;height:22px;flex:none;display:grid;place-items:center;font-size:13px;font-weight:900}
+.stat.done .bul{background:rgba(63,191,106,.16);color:var(--go)}
+.stat.todo .bul{background:rgba(240,83,58,.16);color:var(--stop)}
+.stat ul{list-style:none;margin:0;padding:0}
+.stat li{
+  color:var(--ink-2);font-size:15px;line-height:1.7;padding:9px 0;
+  border-top:1px solid var(--line);display:flex;gap:10px;align-items:flex-start;
+}
+.stat li:first-child{border-top:0}
+.stat li::before{content:"—";color:var(--ink-3);flex:none}
+.stat.done li::before{content:"✓";color:var(--go);font-weight:900}
+.stat.todo li::before{content:"○";color:var(--stop)}
+.blunt{
+  margin-top:20px;background:var(--panel-2);border:1px solid var(--line-2);padding:24px 26px;
+}
+.blunt p{color:var(--ink-2);font-size:15.5px;line-height:1.85}
+.blunt p + p{margin-top:12px}
+.blunt b{color:var(--ink)}
+
+/* ══ RATE ══ */
+.ratebox{background:var(--panel);border:1px solid var(--line);padding:32px 30px;margin-top:36px}
+.q{padding:22px 0;border-top:1px solid var(--line)}
+.q:first-child{border-top:0;padding-top:0}
+.q .lbl,.q > label{font-family:var(--disp);font-weight:900;font-size:17.5px;display:block;color:var(--ink)}
+.q .hint{color:var(--ink-3);font-size:13.5px;margin-top:4px;line-height:1.65}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.opts input{position:absolute;opacity:0;width:0;height:0}
+.opts label{
+  border:1px solid var(--line-2);background:var(--ground);color:var(--ink-2);
+  padding:9px 17px;font-size:14.5px;cursor:pointer;transition:.16s;
+}
+.opts label:hover{border-color:var(--ink-3);color:var(--ink)}
+.opts input:checked + label{background:var(--ember);border-color:var(--fire);color:var(--fire-hi);font-weight:600}
+.opts input:focus-visible + label{outline:2px solid var(--fire);outline-offset:2px}
+
+.stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:5px;margin-top:14px}
+.stars input{position:absolute;opacity:0;width:0;height:0}
+.stars label{cursor:pointer;padding:3px}
+.stars svg{width:34px;height:34px;fill:var(--line-2);transition:.14s}
+.stars label:hover svg,.stars label:hover ~ label svg,
+.stars input:checked + label svg,.stars input:checked + label ~ label svg{fill:var(--gold);filter:drop-shadow(0 0 8px rgba(240,185,63,.55))}
+.rate-word{font-family:var(--disp);font-weight:900;color:var(--gold);font-size:16px;margin-top:9px;min-height:24px}
+
+textarea{
+  width:100%;margin-top:13px;background:var(--ground);color:var(--ink);
+  border:1px solid var(--line-2);padding:14px 15px;font-family:var(--body);
+  font-size:15px;line-height:1.7;resize:vertical;min-height:104px;
+}
+textarea:focus{outline:none;border-color:var(--fire)}
+.chars{font-family:var(--hud);font-size:12px;color:var(--ink-3);margin-top:6px;text-align:start}
+
+.send{padding-top:22px;border-top:1px solid var(--line);margin-top:8px}
+.go{
+  font-family:var(--disp);font-weight:900;font-size:17px;cursor:pointer;
+  background:linear-gradient(160deg,var(--fire-hi),var(--fire-deep));
+  color:#160600;border:0;padding:14px 40px;transition:.18s;
+  box-shadow:0 8px 30px rgba(255,90,31,.30);
+}
+.go:hover{filter:brightness(1.1);box-shadow:0 10px 38px rgba(255,90,31,.45)}
+.go:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.fine{color:var(--ink-3);font-size:13px;margin-top:12px;line-height:1.7}
+.msg{margin-top:18px;font-size:15px;line-height:1.75;display:none}
+.msg.show{display:block}
+.msg.ok{color:var(--go)}
+.msg.err{color:var(--stop)}
+
+.results{margin-top:22px;display:none}
+.results.show{display:block}
+.res-h{font-family:var(--hud);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.bar{margin-bottom:12px}
+.bar .bl{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2);margin-bottom:5px}
+.bar .bl b{color:var(--ink);font-family:var(--hud);font-size:15px}
+.bar .tr{height:7px;background:var(--ground);border:1px solid var(--line);overflow:hidden}
+.bar .fl{height:100%;background:linear-gradient(90deg,var(--fire),var(--gold));width:0;transition:width .7s cubic-bezier(.2,.8,.3,1)}
+
+.sharebox{
+  margin-top:20px;background:var(--panel-2);border:1px solid var(--line-2);padding:26px;
+  display:flex;gap:22px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+}
+.calls{display:flex;gap:10px;flex-wrap:wrap;flex:none}
+.calls a{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  padding:11px 20px;font-size:14.5px;font-weight:600;transition:.16s;
+}
+.calls a svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.wa{background:var(--go);color:#04140A}
+.wa:hover{filter:brightness(1.09)}
+.tel{background:var(--ground);border:1px solid var(--line-2);color:var(--ink)}
+.tel:hover{border-color:var(--fire);color:var(--fire-hi)}
+
+/* ══ CONTACT ══ */
+.owner{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:38px}
+.own{background:var(--panel);border:1px solid var(--line);padding:28px 26px}
+.own .k{font-family:var(--hud);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:11px}
+.own h3{font-size:21px;margin-bottom:12px}
+.own p{color:var(--ink-2);font-size:15px;line-height:1.85}
+.own p + p{margin-top:11px}
+.own .calls{margin-top:20px}
+.num{font-family:var(--hud);font-weight:600;letter-spacing:.06em}
+
+.legal{margin-top:20px;border:1px solid var(--line);background:var(--ground);padding:28px 26px}
+.legal h4{font-size:16px;margin-bottom:12px;color:var(--ink)}
+.legal p{color:var(--ink-3);font-size:14px;line-height:1.85}
+.legal p + p{margin-top:10px}
+.legal b{color:var(--ink-2)}
+.sig{
+  margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:var(--hud);font-size:12.5px;letter-spacing:.1em;color:var(--ink-3);line-height:2;
+}
+
+/* ══ reveal ══ */
+.rise{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+.rise.in{opacity:1;transform:none}
+
+/* ══ responsive ══ */
+@media (max-width:880px){
+  .coinrow{grid-template-columns:1fr;gap:30px}
+  section{padding:70px 0}
+  .cine{min-height:auto;padding:72px 0}
+  .cine-bg::after{background:linear-gradient(to top,var(--void) 8%,rgba(8,8,10,.86) 45%,rgba(8,8,10,.62) 100%)}
+  .cine-txt{max-width:none}
+}
+@media (max-width:620px){
+  body{font-size:15.5px}
+  .lockup{gap:13px}
+  .lockup .mk{width:56px;height:56px;border-radius:13px}
+  .hero{padding:88px 0 46px}
+  .ratebox{padding:24px 19px}
+  .sharebox{padding:20px}
+  .calls a{flex:1;justify-content:center}
+  .pin{width:25px;height:25px;font-size:12px;border-width:1.5px}
+  .stars svg{width:29px;height:29px}
+  .nav-brand span{display:none}
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <div class="nav-in">
+    <a class="nav-brand" href="#top">
+      <img src="img/icon.jpg" alt="" width="30" height="30">
+      <span>فاير أرينا</span>
+    </a>
+    <div class="nav-links">
+      <a href="#idea">الفكرة</a>
+      <a href="#world">العالم</a>
+      <a href="#chars">الشخصيات</a>
+      <a href="#econ">العملة</a>
+      <a href="#status">المرحلة</a>
+      <a href="#rate">رأيك</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero" id="top">
+  <div class="hero-bg">
+    <picture>
+      <source srcset="img/hero.webp" type="image/webp">
+      <img src="img/hero.jpg" alt="مقاتلان يقفان على صخرة تطل على عالم فاير أرينا المشتعل" width="1920" height="1047" fetchpriority="high">
+    </picture>
+  </div>
+
+  <div class="hero-in wrap">
+    <div class="lockup">
+      <span class="mk"><img src="img/icon.jpg" alt="شعار فاير أرينا" width="74" height="74"></span>
+      <div>
+        <h1>فاير أرينا</h1>
+        <div class="lat">FIRE ARENA</div>
+      </div>
+    </div>
+
+    <p class="tagline">باتل رويال بيشتغل على التليفون اللي في إيدك — <b>مش على تليفون أحلامك</b>.</p>
+    <p class="hero-sub">عالم عربي بجد: الأهرام وأبو الهول جوّه الخريطة كمنطقة قتال، بركان بيقفل الطرق، وحصن في المركز. والناجي الأخير يفوز.</p>
+
+    <div class="hero-chips">
+      <span class="chip f">باتل رويال</span>
+      <span class="chip">موبايل · أندرويد</span>
+      <span class="chip">١٠ مناطق</span>
+      <span class="chip g">كونسبت · لسه مفيش نسخة</span>
+    </div>
+  </div>
+
+  <div class="scroller" aria-hidden="true"><span>انزل</span><i></i></div>
+</header>
+
+<!-- ═══════════ HONESTY ═══════════ -->
+<div class="honest">
+  <div class="honest-in">
+    <span class="tag">اقرأ الأول</span>
+    <p><b>دي مش لعبة نازلة — دي فكرة.</b> مفيش نسخة للتحميل، ومفيش تاريخ إصدار. كل الصور في الصفحة رسوم مفهومية (concept art) بتوضّح الاتجاه الفني — مش لقطات من لعبة شغّالة. الصفحة موجودة عشان تشوف الفكرة وتقولّي رأيك فيها.</p>
+  </div>
+</div>
+
+<!-- ═══════════ IDEA ═══════════ -->
+<section id="idea">
+  <div class="wrap">
+    <span class="hud">الفكرة</span>
+    <h2 class="sec-h">ليه لعبة كمان؟</h2>
+    <p class="sec-p">فيه مية باتل رويال. اللي مش موجود حاجتين: واحدة بتحترم الجهاز اللي اللاعب العربي ماسكه فعلًا، وواحدة عالمها عربي من جوّه مش من المتجر.</p>
+
+    <div class="pillars">
+      <div class="pill f rise">
+        <span class="no">01</span>
+        <span class="hud">الأداء</span>
+        <h3>اللعبة اللي تحرّكها الأجهزة الضعيفة</h3>
+        <p>اللاعب في مصر والمنطقة بيلعب على تليفون متوسط أو قديم. بيقفّل الجرافيك على الأقل، وبرضو بيهنج في اللحظة اللي محتاج فيها إطار واحد زيادة — وبيخسر ماتش كان كسبانه.</p>
+        <p>الألعاب الكبيرة بتتبني للأجهزة الرائدة الأول، وبعدين بتتخنق عشان تنزل تحت. <b class="f">فاير أرينا مبنية بالعكس:</b> الجهاز الضعيف هو الهدف الأساسي، والجهاز القوي هو المكافأة.</p>
+        <div class="target">
+          <span class="k">الهدف</span>
+          <span class="v">٣٠ إطار ثابتة</span>
+          <span class="k">على أندرويد ٨ و٢ جيجا رام</span>
+        </div>
+      </div>
+
+      <div class="pill g rise">
+        <span class="no">02</span>
+        <span class="hud g">الهوية</span>
+        <h3>عالم عربي، مش «سكن» عربي</h3>
+        <p>أغلب الألعاب بتدّي المنطقة سكن: عباية على شخصية أجنبية، أو خريطة صحرا اسمها عربي وخلاص. الهوية بتبقى في المتجر مش في اللعبة.</p>
+        <p>هنا العالم نفسه: <b class="g">الأهرام وأبو الهول</b> منطقة قتال ليها ممرات وأنفاق، <b class="g">بركان القدر</b> بيغيّر شكل الخريطة، <b class="g">حصن القدر</b> في المركز، والعملة <b class="g">جُعران الشمس</b> بمفتاح الحياة. الهوية في التصميم مش في الواجهة.</p>
+        <div class="target">
+          <span class="k">في الخريطة الأولى</span>
+          <span class="v">١٠ مناطق</span>
+          <span class="k">كل واحدة ليها طابع قتال مختلف</span>
+        </div>
+      </div>
+
+      <div class="pill c rise">
+        <span class="no">03</span>
+        <span class="prop">قرار مقترح · قابل للتغيير</span>
+        <h3>ماتش أقصر، عشان الموبايل مش كمبيوتر</h3>
+        <p>اللاعب على الموبايل بيلعب في المواصلات، وفي فسحة الشغل، وقبل ما ينام. ماتش نص ساعة مش مناسب للحظة دي — ولا مناسب لبطارية بتفضى.</p>
+        <p>المقترح: ماتش أقصر وخريطة أصغر ودايرة أسرع. تدخل تلعب وتخلص وانت لسه في الأتوبيس.</p>
+        <div class="target">
+          <span class="k">المقترح</span>
+          <span class="v">١٢ دقيقة</span>
+          <span class="k">بدل ٢٥ – ٣٠</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CINEMATIC: SURVIVAL ═══════════ -->
+<div class="cine band">
+  <div class="cine-bg">
+    <picture>
+      <source srcset="img/survival.webp" type="image/webp">
+      <img src="img/survival.jpg" alt="منظر جوي للجزيرة والدايرة النارية بتقفل عليها" width="1600" height="873" loading="lazy">
+    </picture>
+  </div>
+  <div class="cine-in">
+    <div class="cine-txt">
+      <span class="hud">الحلقة الأساسية</span>
+      <h2>اهبط. ابقى. انتصر.</h2>
+      <p>تنزل بالمظلة على جزيرة، تلمّ سلاح وعتاد قبل ما اللي قدامك يلمّ، والدايرة النارية بتضيّق عليك ناحية المركز. مفيش مكان تستخبى فيه للآخر — الخريطة نفسها بتجرّك للاشتباك.</p>
+      <p>الفرق هنا إن الدايرة مش دايرة بس: <b class="f">حمم بركان القدر</b> بتقفل طرق، والمناطق بتتغيّر جوّه نفس الماتش.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ WORLD / MAP ═══════════ -->
+<section id="world" class="band">
+  <div class="wrap">
+    <span class="hud g">العالم</span>
+    <h2 class="sec-h">خريطة فيها حتة من هنا</h2>
+    <p class="sec-p">دوس على أي رقم على الخريطة تشوف المنطقة. الخريطة دي الأولى — لسه في مرحلة كونسبت، والمناطق ممكن تتغيّر.</p>
+
+    <div class="mapwrap rise">
+      <div class="mapimg">
+        <picture>
+          <source srcset="img/world-map.webp" type="image/webp">
+          <img src="img/world-map.jpg" alt="خريطة فاير أرينا: بركان، أهرامات، مدينة مدمرة، حصن، ومصنع" width="1920" height="1047" loading="lazy">
+        </picture>
+        <button class="pin" data-z="1" style="left:22%;top:21%" aria-label="بركان القدر">1</button>
+        <button class="pin" data-z="2" style="left:35%;top:44%" aria-label="منطقة الأهرام العريقة">2</button>
+        <button class="pin" data-z="3" style="left:52%;top:51%" aria-label="المنطقة المدمرة">3</button>
+        <button class="pin" data-z="4" style="left:69%;top:40%" aria-label="حصن القدر">4</button>
+        <button class="pin" data-z="5" style="left:77%;top:74%" aria-label="المصنع الصناعي">5</button>
+        <button class="pin" data-z="6" style="left:16%;top:67%" aria-label="كهوف الصقيع">6</button>
+        <button class="pin" data-z="7" style="left:44%;top:75%" aria-label="قرية الغابة">7</button>
+        <button class="pin" data-z="8" style="left:12%;top:46%" aria-label="مدينة الأطراف">8</button>
+      </div>
+    </div>
+
+    <div class="zones">
+      <div class="zone" data-z="1" role="button" tabindex="0">
+        <div class="top"><span class="num">1</span><h4>بركان القدر</h4><span class="kind">مرتفع</span></div>
+        <p>أعلى نقطة في الخريطة، ورؤية مفتوحة على نص العالم. بس الحمم بتزحف وبتقفل طرق جوّه الماتش نفسه — المكان ده بيتغيّر وانت واقف فيه.</p>
+      </div>
+      <div class="zone" data-z="2" role="button" tabindex="0">
+        <div class="top"><span class="num">2</span><h4>منطقة الأهرام العريقة</h4><span class="kind">أنفاق</span></div>
+        <p>أهرامات وأبو الهول ومعابد مدفونة جوّه الرمل، وتحتيها ممرات بتوصل بين الغرف. غنيمة عالية، بس الممرات ضيقة يعني اشتباك قريب ومفيش هروب.</p>
+      </div>
+      <div class="zone" data-z="3" role="button" tabindex="0">
+        <div class="top"><span class="num">3</span><h4>المنطقة المدمرة</h4><span class="kind">قتال شوارع</span></div>
+        <p>عمارات فاضية مفتوحة من كل ناحية، وكل سطح نقطة ضغط على اللي تحت. أخطر مكان في أول تلات دقايق، وأغنى مكان لو عشت فيهم.</p>
+      </div>
+      <div class="zone" data-z="4" role="button" tabindex="0">
+        <div class="top"><span class="num">4</span><h4>حصن القدر</h4><span class="kind">منطقة المصير</span></div>
+        <p>المركز اللي الدايرة بتقفل عليه في الآخر غالبًا. أسوار عالية وبوابة واحدة — اللي بيمسك البوابة بيمسك الماتش، واللي جوّه محاصر ومحمي في نفس الوقت.</p>
+      </div>
+      <div class="zone" data-z="5" role="button" tabindex="0">
+        <div class="top"><span class="num">5</span><h4>المصنع الصناعي</h4><span class="kind">فوضى الإنتاج</span></div>
+        <p>سيور وصوامع وممرات معدنية. عتاد تقيل موجود هنا، بس المعدن بيرنّ تحت رجلك — مستحيل تتحرك من غير ما اللي في الدور اللي فوق يسمعك.</p>
+      </div>
+      <div class="zone" data-z="6" role="button" tabindex="0">
+        <div class="top"><span class="num">6</span><h4>كهوف الصقيع</h4><span class="kind">تحت الأرض</span></div>
+        <p>ضلمة، وضيقة، ومش بتظهر على الخريطة الصغيرة. أحسن مخبأ في اللعبة وأخطر مصيدة فيها — نفس المكان بالظبط.</p>
+      </div>
+      <div class="zone" data-z="7" role="button" tabindex="0">
+        <div class="top"><span class="num">7</span><h4>قرية الغابة</h4><span class="kind">هدوء</span></div>
+        <p>بيوت خشب متفرّقة وسط شجر كتيف. أهدى نقطة إنزال — للّي بيلعب على إنه يعيش للآخر، مش على إنه يعمل أرقام.</p>
+      </div>
+      <div class="zone" data-z="8" role="button" tabindex="0">
+        <div class="top"><span class="num">8</span><h4>مدينة الأطراف</h4><span class="kind">الحافة</span></div>
+        <p>غنيمة متوسطة وزحمة قليلة، بس بعيدة عن المركز. تنزل هنا يعني اخترت إنك تلمّ في أمان وتجري سباق مع الدايرة بعدين.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CINEMATIC: PERFORMANCE ═══════════ -->
+<div class="cine band">
+  <div class="cine-bg">
+    <picture>
+      <source srcset="img/gameplay.webp" type="image/webp">
+      <img src="img/gameplay.jpg" alt="إيدين ماسكين تليفون وعليه واجهة اللعبة" width="1600" height="873" loading="lazy">
+    </picture>
+  </div>
+  <div class="cine-in">
+    <div class="cine-txt">
+      <span class="hud">الواجهة</span>
+      <h2>واجهة إيد واحدة، وأرقام تتقري بسرعة</h2>
+      <p>الاتجاه المقترح للواجهة: الزراير كلها في مدى الإبهام، الدم والدرع أرقام كبيرة تتقري بنص نظرة، والخريطة الصغيرة في ركن ثابت مش بتتحرك. أقل عناصر ممكنة على الشاشة عشان الإطارات وعشان العين.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CHARACTERS ═══════════ -->
+<section id="chars" class="band">
+  <div class="wrap">
+    <span class="hud c">الشخصيات</span>
+    <h2 class="sec-h">أول اتنين في الطاقم</h2>
+    <p class="sec-p">شيتات التصميم المرجعية — الملامح والزيّ والتفاصيل. القدرات لسه ماتحدّدتش، وده مقصود: الشكل بيتحدّد الأول عشان الشخصية تبان مميزة قبل ما يبقى ليها قدرة.</p>
+
+    <div class="roster" role="tablist">
+      <button class="rtab on" data-c="rio" role="tab" aria-selected="true" aria-controls="c-rio">RIO · ريو</button>
+      <button class="rtab" data-c="manila" role="tab" aria-selected="false" aria-controls="c-manila">MANILA · مانيلا</button>
+    </div>
+
+    <div class="char on" id="c-rio" role="tabpanel">
+      <div class="sheet">
+        <picture>
+          <source srcset="img/char-rio.webp" type="image/webp">
+          <img src="img/char-rio.jpg" alt="شيت تصميم شخصية ريو: الجسم كامل، ملامح الوجه، السترة، والمنظور الخلفي" width="1500" height="817" loading="lazy">
+        </picture>
+      </div>
+      <div class="meta">
+        <div class="cell"><span class="k">الاسم</span><span class="v hi">ريو · RIO</span></div>
+        <div class="cell"><span class="k">الدور</span><span class="v">مشغّل تكتيكي</span></div>
+        <div class="cell"><span class="k">الطول</span><span class="v">١٧٨ سم</span></div>
+        <div class="cell"><span class="k">الزيّ</span><span class="v">سترة كارجو عالية التفاصيل</span></div>
+      </div>
+      <p class="note">التصميم مبني على الحركة: سترة خفيفة وجيوب كارجو ومفيش درع تقيل. ريو شخصية البداية — الأقرب للاعب الجديد، مالهاش تخصص بيحصر طريقة لعبه.</p>
+    </div>
+
+    <div class="char" id="c-manila" role="tabpanel">
+      <div class="sheet">
+        <picture>
+          <source srcset="img/char-manila.webp" type="image/webp">
+          <img src="img/char-manila.jpg" alt="شيت تصميم شخصية مانيلا: أربع زوايا، ملامح الوجه، ونظام الحزام" width="1500" height="817" loading="lazy">
+        </picture>
+      </div>
+      <div class="meta">
+        <div class="cell"><span class="k">الاسم</span><span class="v hi">مانيلا · MANILA</span></div>
+        <div class="cell"><span class="k">الدور</span><span class="v">أخصائية تكتيكية</span></div>
+        <div class="cell"><span class="k">الأصل</span><span class="v">الفلبين</span></div>
+        <div class="cell"><span class="k">التخصص</span><span class="v">استطلاع الغابات</span></div>
+      </div>
+      <p class="note">نظام حزام بدل السترة الكاملة — أخف وأسرع، ومناسب لمنطقة زي قرية الغابة وكهوف الصقيع. التخصص بيقول للاعب هيلعب إزاي قبل ما يجرّبها.</p>
+    </div>
+  </div>
+</section>
+<!-- ═══════════ ECONOMY ═══════════ -->
+<section id="econ" class="band">
+  <div class="wrap">
+    <span class="hud g">الاقتصاد</span>
+    <h2 class="sec-h">جُعران الشمس</h2>
+    <p class="sec-p">عملة اللعبة. جُعران فرعوني بمفتاح الحياة وجناحين، على قرص شمس — مش عملة ذهب عامة زي أي لعبة تانية.</p>
+
+    <div class="coinrow">
+      <div class="coin rise">
+        <picture>
+          <source srcset="img/currency.webp" type="image/webp">
+          <img src="img/currency.jpg" alt="كونسبت عملة جُعران الشمس: أربع زوايا وأيقونة الواجهة" width="1200" height="1200" loading="lazy">
+        </picture>
+      </div>
+
+      <div class="rise">
+        <span class="prop">قرار مقترح · قابل للتغيير</span>
+        <h3 style="font-size:clamp(22px,3.4vw,30px);margin-top:10px">الفلوس تشتري شكل. ماتشتريش ضرر.</h3>
+        <div class="econ-rules">
+          <div class="erule">
+            <h4>اللي ينفع يتباع</h4>
+            <p>شخصيات، أشكال أسلحة، مظلات، إيموتات، تذكرة موسم. كله بصري — اللاعب بيدفع عشان يبان مختلف، مش عشان يضرب أقوى.</p>
+          </div>
+          <div class="erule no">
+            <h4>اللي مايتباعش أبدًا</h4>
+            <p>مفيش سلاح أقوى بفلوس، ولا درع أحسن، ولا سرعة زيادة، ولا صناديق عشوائية بتدّي ميزة في القتال.</p>
+          </div>
+          <div class="erule">
+            <h4>ليه القاعدة دي</h4>
+            <p>أكبر سبب بيخلّي اللاعب العربي يسيب لعبة إنه يحس إنه اتغلب بالفلوس مش بالمهارة. القاعدة دي أغلى حاجة ممكن اللعبة تحافظ عليها — ولو اتكسرت مرة واحدة، مفيش رجوع.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATUS ═══════════ -->
+<section id="status" class="band">
+  <div class="wrap">
+    <span class="hud">المرحلة</span>
+    <h2 class="sec-h">فين المشروع دلوقتي — بالظبط</h2>
+    <p class="sec-p">الجزء ده موجود عشان محدش يتلخبط. ده وضع المشروع الحقيقي النهاردة.</p>
+
+    <div class="statgrid">
+      <div class="stat done rise">
+        <h3><span class="bul">✓</span> اتعمل</h3>
+        <ul>
+          <li>اسم وهوية بصرية وشعار</li>
+          <li>كي-آرت للعالم والأجواء</li>
+          <li>خريطة أولى بـ ١٠ مناطق مسمّاة</li>
+          <li>شيتين تصميم شخصيات — ريو ومانيلا</li>
+          <li>كونسبت عملة — جُعران الشمس</li>
+          <li>الصفحة دي</li>
+        </ul>
+      </div>
+      <div class="stat todo rise">
+        <h3><span class="bul">○</span> لسه ماتعملش</h3>
+        <ul>
+          <li>مستند تصميم مكتوب فيه الميكانيكس بالتفصيل</li>
+          <li>بروتوتايب يتلعب</li>
+          <li>نظام حركة وإطلاق نار</li>
+          <li>سيرفر ومزامنة لاعبين</li>
+          <li>اختبار على جهاز ضعيف حقيقي</li>
+          <li>فريق أو تمويل</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="blunt rise">
+      <p><b>ليه بقول كده بصوت عالي؟</b> لأن أسهل حاجة في الألعاب إنك تعمل آرت حلو وتقول «عندي لعبة». الآرت هو أرخص جزء في اللعبة. أصعب جزء إن حاجة تتحرّك على تليفون بـ ٢ جيجا رام من غير ما تهنج.</p>
+      <p>اللي قدامك دلوقتي: <b>اتجاه فني واضح، وعالم متسمّي، ووعد تقني محدد</b>. اللي لسه مش موجود: إثبات إن الوعد ده ينفَّذ.</p>
+      <p>عشان كده الخطوة الجاية مش آرت زيادة. الخطوة الجاية <b class="f">بروتوتايب وحش الشكل</b> بيجري ٣٠ إطار ثابتة على أوحش تليفون ألاقيه. لو الرقم ده مامشيش — الفكرة كلها مش هتمشي، والأحسن أعرف بدري.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ RATE ═══════════ -->
+<section id="rate" class="band">
+  <div class="wrap">
+    <span class="hud">رأيك</span>
+    <h2 class="sec-h">قول رأيك — والرأي الوحش أنفع</h2>
+    <p class="sec-p">مجهول تمامًا ومابياخدش منك أي بيانات. لو قلتلي «الفكرة مش هتنفع» وقلتلي ليه، ده بيوفّر عليّ شهور.</p>
+
+    <div class="ratebox rise">
+      <form id="form" novalidate>
+        <div class="q">
+          <span class="lbl">انت مين؟</span>
+          <p class="hint">عشان أعرف الرأي جاي من أنهي ناحية.</p>
+          <div class="opts">
+            <input type="radio" name="role" id="r1" value="لاعب"><label for="r1">لاعب</label>
+            <input type="radio" name="role" id="r2" value="مطور ألعاب"><label for="r2">مطوّر ألعاب</label>
+            <input type="radio" name="role" id="r3" value="صانع محتوى"><label for="r3">صانع محتوى / جيمر</label>
+            <input type="radio" name="role" id="r4" value="ناشر أو مستثمر"><label for="r4">ناشر أو مستثمر</label>
+            <input type="radio" name="role" id="r5" value="مهتم"><label for="r5">مهتم بس</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <span class="lbl">الفكرة نفسها من ٥</span>
+          <p class="hint">مش الآرت — الفكرة.</p>
+          <div class="stars">
+            <input type="radio" name="score" id="s5" value="5"><label for="s5" title="ممتازة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg></label>
+            <input type="radio" name="score" id="s4" value="4"><label for="s4" title="كويسة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg></label>
+            <input type="radio" name="score" id="s3" value="3"><label for="s3" title="عادية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg></label>
+            <input type="radio" name="score" id="s2" value="2"><label for="s2" title="ضعيفة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg></label>
+            <input type="radio" name="score" id="s1" value="1"><label for="s1" title="مش هتنفع"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.5l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg></label>
+          </div>
+          <div class="rate-word" id="word"></div>
+        </div>
+
+        <div class="q">
+          <span class="lbl">لو نزلت بكرا، هتلعبها؟</span>
+          <p class="hint">دي أهم إجابة في الصفحة كلها.</p>
+          <div class="opts">
+            <input type="radio" name="use" id="u1" value="أكيد"><label for="u1">أكيد هلعبها</label>
+            <input type="radio" name="use" id="u2" value="يمكن"><label for="u2">يمكن، حسب</label>
+            <input type="radio" name="use" id="u3" value="لأ"><label for="u3">لأ</label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label for="say">أوحش حاجة في الفكرة إيه؟</label>
+          <p class="hint">اختياري — بس ده اللي بيفيد فعلًا. قول اللي مش عاجبك.</p>
+          <textarea id="say" maxlength="260" placeholder="مثلًا: السوق مليان ومحدش هيسيب اللي بيلعبه، أو الأداء ده مستحيل، أو…"></textarea>
+          <div class="chars"><span id="ct">0</span>/260</div>
+        </div>
+
+        <div class="send">
+          <button type="submit" class="go" id="go">ابعت تقييمك</button>
+          <p class="fine">مفيش اسم ولا تليفون ولا إيميل بيتاخد منك. الكلام بيتحفظ في المتصفح بتاعك بس — عشان تشوف نتيجتك مع اللي قيّمت قبل كده على نفس الجهاز.</p>
+        </div>
+      </form>
+
+      <div class="msg" id="msg" role="status"></div>
+      <div class="results" id="results"></div>
+    </div>
+
+    <div class="sharebox rise">
+      <div>
+        <h3 style="font-size:19px;margin-bottom:8px">عايز توصّلي رأيك بجد؟</h3>
+        <p style="color:var(--ink-2);font-size:14.5px;line-height:1.8;max-width:52ch">التقييم فوق بيفضل على جهازك. لو عايزني أشوف كلامك فعلًا — ابعتهولي على واتساب، أو ابعت الصفحة لحد رأيه يفرق.</p>
+      </div>
+      <div class="calls">
+        <a class="wa" id="mywa" href="https://wa.me/201145827028" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.3-4.3A8.3 8.3 0 1 1 8 19.3z"/><path d="M9 9.2c.2 1.9 1.6 4.2 3.6 5.2"/></svg>
+          ابعتلي رأيك
+        </a>
+        <a class="tel" id="shcp" href="#">انسخ لينك الصفحة</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact" class="band">
+  <div class="wrap">
+    <span class="hud">التواصل</span>
+    <h2 class="sec-h">لو الفكرة عجبتك — أو عندك اعتراض جامد</h2>
+
+    <div class="owner">
+      <div class="own">
+        <span class="k">صاحب الفكرة</span>
+        <h3>محمد فتحي عبدالصمد تركي</h3>
+        <p>مطوّر ومصمم. «فاير أرينا» فكرة شغّال عليها بنفسي — الاسم والهوية والعالم والخريطة والشخصيات والصفحة دي.</p>
+        <p>لو انت مطوّر ألعاب أو فنان أو حد شايف نفسه في المشروع ده — كلّمني.</p>
+        <div class="calls">
+          <a class="wa" href="https://wa.me/201145827028" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.3-4.3A8.3 8.3 0 1 1 8 19.3z"/><path d="M9 9.2c.2 1.9 1.6 4.2 3.6 5.2"/></svg>
+            واتساب
+          </a>
+          <a class="tel" href="tel:+201145827028">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3.5h3l1.6 4-2 1.5a11 11 0 0 0 6.2 6.2l1.5-2 4 1.6v3c0 1-.8 1.8-1.8 1.7A16.5 16.5 0 0 1 4.5 5.3c-.1-1 .7-1.8 1.7-1.8z"/></svg>
+            <span class="num">0114 582 7028</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="own">
+        <span class="k">اللي مش في الصفحة دي</span>
+        <h3>الميكانيكس والاقتصاد وخطة الإنتاج</h3>
+        <p>العالم والآرت هما الواجهة. اللي بيفرق فعلًا هو <b class="f">حلقة اللعب بالثانية</b>، و<b class="f">إزاي اللعبة بتكسب من غير ما تكسر قاعدة مفيش دفع للفوز</b>، و<b class="f">الترتيب اللي هتتبني بيه</b> بفريق صغير وميزانية محدودة.</p>
+        <p style="color:var(--ink-3);font-size:13.5px">الحاجات دي بتتعرض لواحد لواحد، مش على لينك عام.</p>
+      </div>
+    </div>
+
+    <div class="legal">
+      <h4>ملكية الفكرة</h4>
+      <p>الاسم «فاير أرينا» / «FIRE ARENA»، والشعار، والهوية البصرية، وتصميم العالم والخريطة والمناطق، والشخصيات، وتصميم العملة، ونصوص الصفحة دي — كلها من إنتاج <b>محمد فتحي عبدالصمد تركي</b>.</p>
+      <p><b>الصفحة دي مفتوحة للمشاركة</b> — ابعتها لأي حد ممكن يقول رأي مفيد. اللي مش مسموح بيه هو استخدام الاسم أو التصميم أو العالم <b>تجاريًا</b> من غير إذن مكتوب.</p>
+      <p>الصور الموجودة في الصفحة رسوم مفهومية (concept art) لتوضيح الاتجاه الفني، مش لقطات من لعبة شغّالة، ومش تمثيل نهائي لأي منتج.</p>
+      <div class="sig">
+        FIRE ARENA · فاير أرينا · جمهورية مصر العربية<br>
+        © ٢٠٢٦ محمد فتحي عبدالصمد تركي — كل الحقوق محفوظة
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+  var $  = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* ── sticky nav ── */
+  var nav = $('#nav');
+  var onScroll = function(){ nav.classList.toggle('stuck', window.scrollY > 40); };
+  onScroll(); addEventListener('scroll', onScroll, {passive:true});
+
+  /* ── scroll spy ── */
+  var links = $$('.nav-links a');
+  var targets = links.map(function(a){ return $(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && targets.length){
+    var spy = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#'+e.target.id); });
+      });
+    }, {rootMargin:'-45% 0px -50% 0px'});
+    targets.forEach(function(t){ spy.observe(t); });
+  }
+
+  /* ── reveal on scroll ── */
+  var rises = $$('.rise');
+  if ('IntersectionObserver' in window){
+    var ro = new IntersectionObserver(function(es,o){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); o.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.08});
+    rises.forEach(function(el){ ro.observe(el); });
+  } else {
+    rises.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ── map pins <-> zone cards ── */
+  var pins = $$('.pin'), zones = $$('.zone');
+  function pick(id){
+    pins.forEach(function(p){ p.classList.toggle('on', p.dataset.z === id); });
+    zones.forEach(function(z){ z.classList.toggle('on', z.dataset.z === id); });
+  }
+  pins.forEach(function(p){
+    p.addEventListener('click', function(){
+      pick(p.dataset.z);
+      var card = zones.filter(function(z){ return z.dataset.z === p.dataset.z; })[0];
+      if(card) card.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+  });
+  zones.forEach(function(z){
+    z.addEventListener('click', function(){ pick(z.dataset.z); });
+    z.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(z.dataset.z); }
+    });
+  });
+
+  /* ── character tabs ── */
+  var tabs = $$('.rtab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(o){ o.classList.remove('on'); o.setAttribute('aria-selected','false'); });
+      t.classList.add('on'); t.setAttribute('aria-selected','true');
+      $$('.char').forEach(function(c){ c.classList.toggle('on', c.id === 'c-'+t.dataset.c); });
+    });
+  });
+
+  /* ── stars word ── */
+  var WORDS = {'1':'مش هتنفع','2':'ضعيفة','3':'عادية','4':'كويسة','5':'ممتازة'};
+  var word = $('#word');
+  $$('input[name=score]').forEach(function(i){
+    i.addEventListener('change', function(){ word.textContent = WORDS[i.value] || ''; });
+  });
+
+  /* ── char counter ── */
+  var say = $('#say'), ct = $('#ct');
+  say.addEventListener('input', function(){ ct.textContent = say.value.length; });
+
+  /* ── feedback store (local only) ── */
+  var KEY = 'fire-arena-votes-v1';
+  function load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ return []; }
+  }
+  function save(list){
+    try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){}
+  }
+  function ar(n){ return String(n).replace(/[0-9]/g, function(d){ return '٠١٢٣٤٥٦٧٨٩'[+d]; }); }
+
+  function render(list){
+    if(!list.length) return;
+    var box = $('#results');
+    var avg = list.reduce(function(s,v){ return s + (+v.score||0); }, 0) / list.length;
+    var yes = list.filter(function(v){ return v.use === 'أكيد'; }).length;
+    var may = list.filter(function(v){ return v.use === 'يمكن'; }).length;
+    var no  = list.filter(function(v){ return v.use === 'لأ'; }).length;
+    function bar(label, n){
+      var pct = list.length ? Math.round(n / list.length * 100) : 0;
+      return '<div class="bar"><div class="bl"><span>'+label+'</span><b>'+ar(pct)+'%</b></div>'+
+             '<div class="tr"><div class="fl" data-w="'+pct+'"></div></div></div>';
+    }
+    box.innerHTML =
+      '<div class="res-h">نتيجة '+ar(list.length)+' تقييم على الجهاز ده · متوسط '+ar(avg.toFixed(1))+' من ٥</div>' +
+      bar('هيلعبها أكيد', yes) + bar('يمكن', may) + bar('لأ', no);
+    box.classList.add('show');
+    requestAnimationFrame(function(){
+      $$('.fl', box).forEach(function(f){ f.style.width = f.dataset.w + '%'; });
+    });
+  }
+
+  var form = $('#form'), msg = $('#msg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var role  = $('input[name=role]:checked');
+    var score = $('input[name=score]:checked');
+    var use   = $('input[name=use]:checked');
+    if(!score || !use){
+      msg.className = 'msg show err';
+      msg.textContent = 'ناقص حاجتين: قيّم الفكرة من ٥، وقول هتلعبها ولا لأ.';
+      return;
+    }
+    var list = load();
+    list.push({
+      role:  role ? role.value : '',
+      score: score.value,
+      use:   use.value,
+      say:   say.value.trim(),
+      at:    Date.now()
+    });
+    save(list);
+    msg.className = 'msg show ok';
+    msg.textContent = 'وصل. شكرًا — ده بيفرق فعلًا.';
+    $('#go').disabled = true;
+    form.querySelectorAll('input,textarea').forEach(function(el){ el.disabled = true; });
+
+    var wa = $('#mywa');
+    var txt = 'رأيي في فاير أرينا:\n'
+            + 'أنا: ' + (role ? role.value : 'مهتم') + '\n'
+            + 'التقييم: ' + score.value + '/5\n'
+            + 'هلعبها؟ ' + use.value
+            + (say.value.trim() ? '\nملاحظة: ' + say.value.trim() : '');
+    wa.href = 'https://wa.me/201145827028?text=' + encodeURIComponent(txt);
+
+    render(list);
+  });
+
+  render(load());
+
+  /* ── copy link ── */
+  $('#shcp').addEventListener('click', function(e){
+    e.preventDefault();
+    var self = this, old = self.textContent, url = location.href.split('#')[0];
+    function done(){ self.textContent = 'اتنسخ ✓'; setTimeout(function(){ self.textContent = old; }, 1800); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done, function(){ prompt('انسخ اللينك:', url); });
+    } else { prompt('انسخ اللينك:', url); }
+  });
+})();
+</script>
+</body>
+</html>
