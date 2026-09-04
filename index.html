@@ -231,6 +231,19 @@ section{padding:96px 0;position:relative}
   color:var(--cool);border:1px dashed rgba(120,180,214,.5);background:var(--cool-wash);
   padding:4px 10px;margin-bottom:4px;
 }
+.artband{position:relative;line-height:0;background:var(--void);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.artband img{width:100%;height:auto}
+.artband::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(8,8,10,.62),transparent 20%),
+             linear-gradient(to bottom,rgba(8,8,10,.5),transparent 16%);
+}
+.artband figcaption{
+  position:absolute;bottom:11px;left:22px;z-index:2;line-height:1.6;
+  font-family:var(--hud);font-weight:600;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+
 /* ══ cinematic full-bleed band ══ */
 .cine{position:relative;min-height:78svh;display:flex;align-items:center;overflow:hidden;padding:90px 0}
 .cine-bg{position:absolute;inset:0;z-index:0}
@@ -572,23 +585,23 @@ textarea:focus{outline:none;border-color:var(--fire)}
   </div>
 </section>
 
-<!-- ═══════════ CINEMATIC: SURVIVAL ═══════════ -->
-<div class="cine band">
-  <div class="cine-bg">
-    <picture>
-      <source srcset="img/survival.webp" type="image/webp">
-      <img src="img/survival.jpg" alt="منظر جوي للجزيرة والدايرة النارية بتقفل عليها" width="1600" height="873" loading="lazy">
-    </picture>
+<!-- ═══════════ CORE LOOP ═══════════ -->
+<section id="loop" class="band">
+  <div class="wrap">
+    <span class="hud">الحلقة الأساسية</span>
+    <h2 class="sec-h">اهبط. ابقى. انتصر.</h2>
+    <p class="sec-p">تنزل بالمظلة على جزيرة، تلمّ سلاح وعتاد قبل ما اللي قدامك يلمّ، والدايرة النارية بتضيّق عليك ناحية المركز. مفيش مكان تستخبى فيه للآخر — الخريطة نفسها بتجرّك للاشتباك.</p>
+    <p class="sec-p">الفرق المقترح هنا إن الدايرة مش دايرة وبس: <b class="f">حمم بركان القدر</b> بتزحف وبتقفل طرق، والمناطق بتتغيّر جوّه نفس الماتش — يعني الخريطة اللي حفظتها في الجولة اللي فاتت مش هي دي.</p>
   </div>
-  <div class="cine-in">
-    <div class="cine-txt">
-      <span class="hud">الحلقة الأساسية</span>
-      <h2>اهبط. ابقى. انتصر.</h2>
-      <p>تنزل بالمظلة على جزيرة، تلمّ سلاح وعتاد قبل ما اللي قدامك يلمّ، والدايرة النارية بتضيّق عليك ناحية المركز. مفيش مكان تستخبى فيه للآخر — الخريطة نفسها بتجرّك للاشتباك.</p>
-      <p>الفرق هنا إن الدايرة مش دايرة بس: <b class="f">حمم بركان القدر</b> بتقفل طرق، والمناطق بتتغيّر جوّه نفس الماتش.</p>
-    </div>
-  </div>
-</div>
+</section>
+
+<figure class="artband">
+  <picture>
+    <source srcset="img/survival.webp" type="image/webp">
+    <img src="img/survival.jpg" alt="منظر جوي للجزيرة والدايرة النارية بتقفل عليها والمظلات بتنزل" width="1600" height="873" loading="lazy">
+  </picture>
+  <figcaption>رسم مفهومي · concept art</figcaption>
+</figure>
 
 <!-- ═══════════ WORLD / MAP ═══════════ -->
 <section id="world" class="band">
@@ -651,22 +664,22 @@ textarea:focus{outline:none;border-color:var(--fire)}
   </div>
 </section>
 
-<!-- ═══════════ CINEMATIC: PERFORMANCE ═══════════ -->
-<div class="cine band">
-  <div class="cine-bg">
-    <picture>
-      <source srcset="img/gameplay.webp" type="image/webp">
-      <img src="img/gameplay.jpg" alt="إيدين ماسكين تليفون وعليه واجهة اللعبة" width="1600" height="873" loading="lazy">
-    </picture>
+<figure class="artband">
+  <picture>
+    <source srcset="img/gameplay.webp" type="image/webp">
+    <img src="img/gameplay.jpg" alt="إيدين ماسكين تليفون وعليه واجهة اللعبة أثناء المعركة" width="1600" height="873" loading="lazy">
+  </picture>
+  <figcaption>رسم مفهومي · concept art</figcaption>
+</figure>
+
+<!-- ═══════════ UI ═══════════ -->
+<section id="ui" class="band">
+  <div class="wrap">
+    <span class="hud">الواجهة</span>
+    <h2 class="sec-h">واجهة إيد واحدة، وأرقام تتقري بنص نظرة</h2>
+    <p class="sec-p">الاتجاه المقترح: الزراير كلها في مدى الإبهام، الدم والدرع أرقام كبيرة مش شرايط رفيعة، والخريطة الصغيرة في ركن ثابت مابتتحركش. أقل عدد عناصر ممكن على الشاشة — مرة عشان الإطارات، ومرة عشان العين في شمس الضهر.</p>
   </div>
-  <div class="cine-in">
-    <div class="cine-txt">
-      <span class="hud">الواجهة</span>
-      <h2>واجهة إيد واحدة، وأرقام تتقري بسرعة</h2>
-      <p>الاتجاه المقترح للواجهة: الزراير كلها في مدى الإبهام، الدم والدرع أرقام كبيرة تتقري بنص نظرة، والخريطة الصغيرة في ركن ثابت مش بتتحرك. أقل عناصر ممكنة على الشاشة عشان الإطارات وعشان العين.</p>
-    </div>
-  </div>
-</div>
+</section>
 
 <!-- ═══════════ CHARACTERS ═══════════ -->
 <section id="chars" class="band">
